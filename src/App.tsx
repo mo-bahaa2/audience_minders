@@ -30,9 +30,8 @@ export default function App() {
     castVote
   } = useEvent();
   const toast = useToast();
-  const [voterName, setVoterName] = useState('');
   const [picks, setPicks] = useState<string[]>([]);
-  const [step, setStep] = useState<'onboarding' | 'select' | 'review'>('onboarding');
+  const [step, setStep] = useState<'select' | 'review'>('select');
   const [sending, setSending] = useState(false);
   const [reVote, setReVote] = useState(false);
 
@@ -51,7 +50,7 @@ export default function App() {
   const submit = () => {
     setSending(true);
     window.setTimeout(() => {
-      castVote(picks, voterName);
+      castVote(picks);
       setSending(false);
       toast('Vote recorded — thank you!', 'ok');
     }, 700);
@@ -96,36 +95,7 @@ export default function App() {
       sponsors={settings.sponsors} />;
 
 
-  } else if (step === 'onboarding') {
-    body = (
-      <div className="mx-auto max-w-md px-5 pb-40 pt-16">
-        <div className="text-center">
-          <TechLabel>Welcome to the event</TechLabel>
-          <h1 className="mt-2 text-4xl font-extrabold leading-tight">
-            Who's voting?
-          </h1>
-          <p className="mt-2 text-sm font-medium text-fg-muted">
-            Please enter your name to proceed to the ballot.
-          </p>
-        </div>
-        
-        <div className="mt-10 space-y-6 rounded-lg border border-line bg-ink-900 p-6 shadow-panel">
-          <Input 
-            label="Your Full Name" 
-            placeholder="e.g. Ahmed Ali"
-            value={voterName}
-            onChange={(e) => setVoterName(e.target.value)}
-          />
-          <Button 
-            size="xl" 
-            block 
-            disabled={voterName.trim().length < 2}
-            onClick={() => setStep('select')}>
-            Continue to vote
-          </Button>
-        </div>
-      </div>
-    );
+
   } else if (step === 'review') {
     body =
     <div className="mx-auto max-w-md px-5 pb-40 pt-7">
