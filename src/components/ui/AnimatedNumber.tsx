@@ -18,7 +18,7 @@ export function AnimatedNumber({
 }: AnimatedNumberProps) {
   const [shown, setShown] = useState(value);
   const from = useRef(value);
-  const raf = useRef<number>();
+  const raf = useRef<number | null>(null);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -38,7 +38,9 @@ export function AnimatedNumber({
       from.current = value;
     };
     raf.current = requestAnimationFrame(tick);
-    return () => raf.current && cancelAnimationFrame(raf.current);
+    return () => {
+      if (raf.current !== null) cancelAnimationFrame(raf.current);
+    };
   }, [value, duration]);
 
   return (
