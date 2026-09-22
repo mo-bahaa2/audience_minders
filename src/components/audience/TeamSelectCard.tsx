@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CheckIcon } from 'lucide-react';
 import { Team } from '../../types/event';
 import { TeamMark } from '../ui/TeamMark';
@@ -34,7 +35,11 @@ export function TeamSelectCard({
   };
 
   return (
-    <button
+    <motion.button
+      whileHover={disabled && !selected ? {} : { scale: 1.01 }}
+      whileTap={disabled && !selected ? {} : { scale: 0.96 }}
+      layout
+      transition={{ duration: 0.2, ease: "easeOut" }}
       ref={rectRef}
       type="button"
       onClick={onToggle}
@@ -45,7 +50,7 @@ export function TeamSelectCard({
       aria-pressed={selected}
       className={`group relative flex w-full items-center gap-5 overflow-hidden rounded-2xl border px-5 py-5 text-left transition-all duration-300 ease-out disabled:opacity-40 disabled:cursor-not-allowed ${
         selected ?
-        'bg-brand border-brand/80 shadow-[0_4px_16px_rgba(248,201,0,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]' :
+        'bg-brand border-brand shadow-[0_8px_30px_rgba(212,175,55,0.4),inset_0_1px_0_rgba(255,255,255,0.4)]' :
         'glass-panel bg-white/[0.02]'
       }`}
     >
@@ -55,7 +60,7 @@ export function TeamSelectCard({
           className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 ease-out"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(248,201,0,0.08), transparent 40%)`,
+            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(212,175,55,0.1), transparent 40%)`,
           }}
         />
       )}
@@ -88,12 +93,19 @@ export function TeamSelectCard({
         >
           {team.tagline}
         </span>
-        {selected && (
-          <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-black/90 px-3 py-1.5 text-[11px] font-bold uppercase tracking-widest text-brand shadow-sm">
-            <CheckIcon className="h-3.5 w-3.5" strokeWidth={3} />
-            {RANK_WORD[(rank as number) - 1]}
-          </span>
-        )}
+        <AnimatePresence>
+          {selected && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.5, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.5, y: -10 }}
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-black/90 px-3 py-1.5 text-[11px] font-bold uppercase tracking-widest text-brand shadow-sm"
+            >
+              <CheckIcon className="h-3.5 w-3.5" strokeWidth={3} />
+              {RANK_WORD[(rank as number) - 1]}
+            </motion.span>
+          )}
+        </AnimatePresence>
       </span>
 
       <span
@@ -105,6 +117,6 @@ export function TeamSelectCard({
       >
         {selected ? rank : '+'}
       </span>
-    </button>
+    </motion.button>
   );
 }

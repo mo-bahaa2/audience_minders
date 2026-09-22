@@ -190,18 +190,33 @@ export default function App() {
           </p>
         </div>
 
-        <ul className="mt-6 space-y-3 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
-          {teams.map((team) =>
-        <li key={team.id}>
+        <motion.ul
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: { staggerChildren: 0.08 }
+            }
+          }}
+          className="mt-6 space-y-3 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0"
+        >
+          {teams.map((team) => (
+            <motion.li
+              key={team.id}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] } }
+              }}
+            >
               <TeamSelectCard
-            team={team}
-            rank={rankOf(team.id)}
-            disabled={picks.length >= teams.length}
-            onToggle={() => toggle(team.id)} />
-          
-            </li>
-        )}
-        </ul>
+                team={team}
+                rank={rankOf(team.id)}
+                disabled={picks.length >= teams.length}
+                onToggle={() => toggle(team.id)}
+              />
+            </motion.li>
+          ))}
+        </motion.ul>
 
         <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-ink-950/95 backdrop-blur">
           <div className="mx-auto max-w-3xl px-5 py-4">
