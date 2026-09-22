@@ -71,7 +71,7 @@ export function VoteSubmitted({
   teams
 }: {ballot: string[];teams: Team[];}) {
   return (
-    <LampContainer>
+    <>
       <Fireworks />
       <Frame icon={<AnimatedCheckIcon className="h-12 w-12 text-ink-950" strokeWidth={3} />}>
         <h1 className="mt-7 text-4xl font-extrabold leading-tight text-fg">
@@ -111,7 +111,7 @@ export function VoteSubmitted({
           <TechLabel>Ballot locked · one vote per device</TechLabel>
         </div>
       </Frame>
-    </LampContainer>
+    </>
   );
 }
 
