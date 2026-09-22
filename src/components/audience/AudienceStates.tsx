@@ -64,12 +64,14 @@ const AnimatedCheckIcon = ({ className, strokeWidth }: { className: string, stro
   </svg>
 );
 
+import { LampContainer } from '../ui/LampContainer';
+
 export function VoteSubmitted({
   ballot,
   teams
 }: {ballot: string[];teams: Team[];}) {
   return (
-    <>
+    <LampContainer>
       <Fireworks />
       <Frame icon={<AnimatedCheckIcon className="h-12 w-12 text-ink-950" strokeWidth={3} />}>
         <h1 className="mt-7 text-4xl font-extrabold leading-tight text-fg">
@@ -91,7 +93,7 @@ export function VoteSubmitted({
                   duration: 0.25,
                   ease: [0.23, 1, 0.32, 1]
                 }}
-                className="flex items-center gap-3 rounded-sm border border-line bg-ink-900 px-4 py-3 text-left">
+                className="flex items-center gap-3 rounded-sm border border-line bg-ink-900 px-4 py-3 text-left z-50">
                 
                 <span className="num grid h-8 w-8 place-items-center rounded-full bg-brand text-xs font-extrabold text-ink-950">
                   {i + 1}
@@ -104,12 +106,12 @@ export function VoteSubmitted({
   
           })}
         </ul>
-        <div className="mt-8 flex items-center gap-2 rounded-sm border border-line bg-ink-950 px-3 py-2">
+        <div className="mt-8 flex items-center gap-2 rounded-sm border border-line bg-ink-950 px-3 py-2 z-50">
           <ShieldCheckIcon className="h-4 w-4 text-brand" strokeWidth={2} />
           <TechLabel>Ballot locked · one vote per device</TechLabel>
         </div>
       </Frame>
-    </>
+    </LampContainer>
   );
 }
 
